@@ -1,0 +1,9 @@
+1. docker build -t markoruzic997/commandservice .
+
+2. docker push markoruzic997/commandservice
+
+3. docker run -p 8080:80 markoruzic997/commandservice
+
+
+za postgres
+kubectl exec -it postgres-5d46b88759-thmz9 -- psql -h localhost -U admin --password -p 5432 postgresd
