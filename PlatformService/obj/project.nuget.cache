@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "axrUP2pE7XGjb0NqDHfZzWq4VXr8G/6lnYGwdMlNlAlec7dIixHrib30il82Vp78hUwDWRaTRP0nXinQjxdNXQ==",
+  "dgSpecHash": "zX86vy85ggM1U8AHC4pLBkKyPuH/OtNw5e5N3HLSHvjh+ccNjs/Z97UJYk5piamb60yKTnShpjKFvZJVyXrvaw==",
   "success": true,
   "projectFilePath": "/Users/marko/Desktop/Napokon/asp.net-microservices/PlatformService/PlatformService.csproj",
   "expectedPackageFiles": [
@@ -46,6 +46,8 @@
     "/Users/marko/.nuget/packages/microsoft.win32.registry/5.0.0/microsoft.win32.registry.5.0.0.nupkg.sha512",
     "/Users/marko/.nuget/packages/microsoft.win32.systemevents/5.0.0/microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "/Users/marko/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
+    "/Users/marko/.nuget/packages/npgsql/7.0.1/npgsql.7.0.1.nupkg.sha512",
+    "/Users/marko/.nuget/packages/npgsql.entityframeworkcore.postgresql/7.0.1/npgsql.entityframeworkcore.postgresql.7.0.1.nupkg.sha512",
     "/Users/marko/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "/Users/marko/.nuget/packages/swashbuckle.aspnetcore.swagger/6.2.3/swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "/Users/marko/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.2.3/swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",

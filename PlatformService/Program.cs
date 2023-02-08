@@ -13,7 +13,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
+if(builder.Environment.IsProduction())
+{
+    Console.WriteLine("--> Using postgres Db");
+    builder.Services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("PlatformsConn")));
+}
+else
+{
+    Console.WriteLine("--> Using InMem Db");
+    builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
+}
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 Console.WriteLine($"--> CommandService Endpoint {builder.Configuration["CommandService"]}");
@@ -27,7 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-PrepDb.PrepPopulation(app);  // TODO move this to dev env when done
+Console.WriteLine(" --> Pooling changed");
+PrepDb.PrepPopulation(app, app.Environment.IsProduction());
 
 app.UseHttpsRedirection();
 
