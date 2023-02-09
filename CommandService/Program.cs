@@ -1,3 +1,13 @@
+using CommandService.AsyncDataServices;
+using CommandService.Data;
+using CommandService.EventProcessing;
+using CommandService.SyncDataServices.Grpc;
+using CommandsService.Data;
+using CommandsService.EventProcessing;
+using CommandsService.SyncDataServices.Grpc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +16,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
+builder.Services.AddScoped<ICommandRepo, CommandRepo>();
+builder.Services.AddHostedService<MessageBusSubscriber>();
+builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
+builder.Services.AddScoped<IPlatformDataClient, PlatformDataClient>();
 
 var app = builder.Build();
 
@@ -21,5 +37,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+PrepDb.PrepPopulation(app);
 
 app.Run();

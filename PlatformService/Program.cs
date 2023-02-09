@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
+using PlatformService.AsyncDataServices;
 using PlatformService.Data;
 using PlatformService.Respository;
+using PlatformService.SyncDataServices.Grpc;
 using PlatformService.SyncDataServices.Http;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +16,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
+builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
+builder.Services.AddGrpc();
+
+// builder.WebHost.ConfigureKestrel(options => 
+// {
+//     options.ListenLocalhost(5030, o => o.Protocols = HttpProtocols.Http2);
+//     options.ListenAnyIP(5030);
+// });
+
 if(builder.Environment.IsProduction())
 {
     Console.WriteLine("--> Using postgres Db");
@@ -36,13 +48,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-Console.WriteLine(" --> Pooling changed");
-PrepDb.PrepPopulation(app, app.Environment.IsProduction());
-
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<GrpcPlatformService>();
+app.MapGet("/protos/platforms.proto", async context => await context.Response.WriteAsync(File.ReadAllText("Protos/platforms.proto")));
+
+PrepDb.PrepPopulation(app, app.Environment.IsProduction());
 
 app.Run();
