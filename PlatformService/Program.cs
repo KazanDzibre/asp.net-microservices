@@ -37,6 +37,20 @@ else
 }
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    // Setup a HTTP/2 endpoint without TLS.
+    options.ListenLocalhost(5031, o =>
+    {
+        o.Protocols = HttpProtocols.Http2;
+    });
+    options.ListenLocalhost(5030, o =>
+    {
+        o.Protocols = HttpProtocols.Http1;
+    });
+});
+
+
 Console.WriteLine($"--> CommandService Endpoint {builder.Configuration["CommandService"]}");
 
 var app = builder.Build();

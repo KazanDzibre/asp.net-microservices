@@ -26,6 +26,7 @@ namespace CommandsService.SyncDataServices.Grpc
 
             try
             {
+                Console.WriteLine("--> Grpc working ...");
                 var reply = client.GetAllPlatforms(request);
                 return _mapper.Map<IEnumerable<Platform>>(reply.Platform);
             }
